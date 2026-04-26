@@ -3,31 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crime Lab Explorer - Forensic Science</title>
+    <title>Crime Lab Explorer</title>
     <style>
-        /* Pura page cover karne ke liye */
-        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: sans-serif; }
-        
-        /* Lovable Website ka frame */
-        #website-frame { border: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
-        
-        /* Chatbot ko corner mein dikhane ke liye style */
-        #chatbot-container {
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
+        #website-frame { border: none; width: 100%; height: 100%; position: absolute; }
+
+        /* Floating Bubble Style */
+        #chat-bubble {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 25px;
+            right: 25px;
+            width: 65px;
+            height: 65px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            cursor: pointer;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 2px solid #1a73e8;
+            transition: transform 0.3s ease;
+        }
+        #chat-bubble:hover { transform: scale(1.1); }
+
+        /* Chat Window Container */
+        #chat-window {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
             width: 400px;
             height: 600px;
+            display: none; 
             z-index: 9999;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: #ffffff;
+            border: 1px solid #ddd;
         }
-        
-        /* Mobile ke liye responsive chatbot */
+
+        /* Iframe ko force-light karne ka jugad */
+        #chat-window iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            /* Agar chatbot dark hai toh ye filter use light banane ki koshish karega */
+            filter: brightness(1.1) contrast(0.9); 
+        }
+
         @media (max-width: 500px) {
-            #chatbot-container { width: 90%; height: 70%; right: 5%; bottom: 10px; }
+            #chat-window { width: 92%; height: 75%; bottom: 100px; right: 4%; }
         }
     </style>
 </head>
@@ -35,9 +63,25 @@
 
     <iframe id="website-frame" src="https://crime-lab-explorer.lovable.app"></iframe>
 
-    <div id="chatbot-container">
-        <iframe src="https://www.chatbase.co/chatbot-iframe/0QRxdmrGK5i-0ejL-eyN5" width="100%" height="100%" frameborder="0"></iframe>
+    <div id="chat-bubble" onclick="toggleChat()">🔍</div>
+
+    <div id="chat-window">
+        <iframe src="https://www.chatbase.co/chatbot-iframe/0QRxdmrGK5i-0ejL-eyN5"></iframe>
     </div>
+
+    <script>
+        function toggleChat() {
+            var chat = document.getElementById("chat-window");
+            var bubble = document.getElementById("chat-bubble");
+            if (chat.style.display === "none" || chat.style.display === "") {
+                chat.style.display = "block";
+                bubble.innerHTML = "✖"; // Close icon
+            } else {
+                chat.style.display = "none";
+                bubble.innerHTML = "🔍"; // Search/Investigate icon
+            }
+        }
+    </script>
 
 </body>
 </html>
